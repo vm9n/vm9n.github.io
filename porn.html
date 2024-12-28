@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>! Vm9n Login</title>
+    <style>
+        /* Basic Reset and Box Sizing */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2d006e, #000000); /* Dark purple */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            min-height: 550px;
+        }
+
+        /* Common Style for Forms */
+        .form-box {
+            background: linear-gradient(135deg, #2d006e, #000000); /* Dark blue background */
+            padding: 40px 40px 60px;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transform: scale(0.9);
+            opacity: 0;
+            animation: slideIn 0.6s forwards;
+        }
+
+        .form-box h2 {
+            color: linear-gradient(135deg, #2d006e, #000000); /* Purple color */
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Form Inputs */
+        .textbox {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .textbox input {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            outline: none;
+            background-color: #f9f9f9;
+            transition: all 0.3s;
+        }
+
+        .textbox input:focus {
+            border-color: #9b59b6; /* Purple focus color */
+            background-color: #e8f7e8;
+        }
+
+        .textbox input::placeholder {
+            color: #777;
+            font-weight: 400;
+        }
+
+        /* Button Styling */
+        .btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #2d006e; /* Purple button */
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #8e44ad; /* Darker purple on hover */
+        }
+
+        /* Switch to Sign Up / Login */
+        .switch-btn {
+            color: #9b59b6;
+            font-size: 14px;
+            text-decoration: none;
+            cursor: pointer;
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .switch-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                transform: scale(0.6);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Typing Animation for Welcome Text */
+        .typing-effect {
+            margin-top: 30px;
+            font-size: 24px;
+            color: #fff;
+            font-weight: 500;
+            line-height: 1.5;
+            letter-spacing: 0.5px;
+        }
+
+        .typing-effect p {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 3px solid #9b59b6;
+            padding-right: 5px;
+            width: 0;
+            animation: typing 4s steps(40) 1s forwards, blink 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink {
+            50% {
+                border-color: transparent;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Login Form -->
+        <div class="form-box" id="loginForm">
+            <h2>Login</h2>
+            <form id="loginFormContent">
+                <div class="textbox">
+                    <input type="text" id="loginUsername" placeholder="Username" required>
+                </div>
+                <div class="textbox">
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn">Login</button>
+                <a href="#" class="switch-btn" id="toSignup">Don't have an account? Sign Up</a>
+            </form>
+        </div>
+
+        <!-- Sign Up Form -->
+        <div class="form-box" id="signupForm" style="display: none;">
+            <h2>Sign Up</h2>
+            <form id="signupFormContent">
+                <div class="textbox">
+                    <input type="text" id="signupUsername" placeholder="Username" required>
+                </div>
+                <div class="textbox">
+                    <input type="email" id="signupEmail" placeholder="Email" required>
+                </div>
+                <div class="textbox">
+                    <input type="password" id="signupPassword" placeholder="Password" required>
+                </div>
+                <div class="textbox">
+                    <input type="password" id="signupConfirmPassword" placeholder="Confirm Password" required>
+                </div>
+                <button type="submit" class="btn">Sign Up</button>
+                <a href="#" class="switch-btn" id="toLogin">Already have an account? Login</a>
+            </form>
+        </div>
+
+        <!-- Welcome Message with Typing Animation -->
+        <div class="typing-effect" id="welcomeMessage">
+            <p>Please Signup Or Login!</p>
+        </div>
+    </div>
+
+    <script>
+        // Initialize DOM elements and handle switching between forms
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const toSignupBtn = document.getElementById('toSignup');
+        const toLoginBtn = document.getElementById('toLogin');
+        const loginFormContent = document.getElementById('loginFormContent');
+        const signupFormContent = document.getElementById('signupFormContent');
+
+        // Function to show the login form
+        function showLoginForm() {
+            loginForm.style.display = 'block';
+            signupForm.style.display = 'none';
+        }
+
+        // Function to show the signup form
+        function showSignupForm() {
+            signupForm.style.display = 'block';
+            loginForm.style.display = 'none';
+        }
+
+        // Switch to Sign Up form
+        toSignupBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            showSignupForm();
+        });
+
+        // Switch to Login form
+        toLoginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            showLoginForm();
+        });
+
+        // Load stored user data from localStorage
+        function loadUserData() {
+            const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+            return storedUsers;
+        }
+
+        // Store new users in localStorage
+        function storeUserData(users) {
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+
+        // Handle login form submission
+        loginFormContent.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            const storedUsers = loadUserData();
+
+            const user = storedUsers.find(u => u.username === username && u.password === password);
+
+            if (user) {
+                alert('Login successful!');
+                // Redirect to the dashboard or main page after successful login
+                window.location.href = 'dashboard.html'; // Change to the actual page you want to redirect to
+            } else {
+                alert('Invalid credentials!');
+            }
+        });
+
+        // Handle sign up form submission
+        signupFormContent.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('signupUsername').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            const storedUsers = loadUserData();
+
+            // Check if username already exists
+            if (storedUsers.some(u => u.username === username)) {
+                alert('Username already exists!');
+                return;
+            }
+
+            // Store new user
+            storedUsers.push({ username, email, password });
+            storeUserData(storedUsers);
+            alert('Sign up successful! Please log in.');
+            showLoginForm();
+        });
+
+        // Initialize with login form
+        showLoginForm();
+    </script>
+</body>
+
+</html>
